@@ -35,6 +35,10 @@ test:
 	@echo "🧪 Running tests..."
 	go test ./...
 
+test-report:
+	@echo "🧪 Running gopanix test (expected panic)..."
+	@go run ./testdata/report.go || echo "💥 Panic handled and reported"
+
 fmt:
 	@echo "📝 Formatting code..."
 	gofmt -w -l .
