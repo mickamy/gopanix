@@ -36,16 +36,16 @@ test:
 	go test ./...
 
 test-panic:
-	@echo "🧪 Running gopanix test (expected panic)..."
-	@$(APP_NAME) run ./testdata/panic.go || echo "💥 Panic handled and reported"
+	@echo "🧪 Testing: expected panic (gopanix run)..."
+	@$(APP_NAME) run ./testdata/panic.go || echo "💥 Panic detected and reported"
 
 test-ok:
-	@echo "🧪 Running gopanix test (expected no panic)..."
+	@echo "🧪 Testing: no panic expected (gopanix run)..."
 	@$(APP_NAME) run ./testdata/no_panic.go
 
 test-lib:
-	@echo "🧪 Running gopanix test (expected panic)..."
-	@go run ./testdata/handle.go || echo "💥 Panic handled and reported"
+	@echo "🧪 Testing: panic using gopanix.Handle() (embedded)..."
+	@go run ./testdata/handle.go || echo "💥 Panic detected and reported"
 
 fmt:
 	@echo "📝 Formatting code..."
