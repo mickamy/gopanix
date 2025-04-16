@@ -1,0 +1,35 @@
+version: 2
+project_name: gotcha
+release:
+  github:
+    owner: mickamy
+    name: gotcha
+  draft: false
+  prerelease: "false"
+
+builds:
+  - id: gotcha
+    main: ./main.go
+    goos: [ darwin, linux, windows ]
+    goarch: [ amd64, arm64 ]
+    ldflags:
+      - "-X github.com/mickamy/gotcha/cmd/version.version={{.Version}}"
+    binary: gotcha
+
+archives:
+  - formats: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - LICENSE
+      - README.md
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: desc
+  filters:
+    exclude:
+      - '^chore:'
+      - '^docs:'
+      - '^test:'
