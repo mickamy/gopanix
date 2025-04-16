@@ -35,9 +35,13 @@ test:
 	@echo "🧪 Running tests..."
 	go test ./...
 
-test-report:
+test-panic:
 	@echo "🧪 Running gopanix test (expected panic)..."
-	@go run ./testdata/report.go || echo "💥 Panic handled and reported"
+	@$(APP_NAME) run ./testdata/panic.go || echo "💥 Panic handled and reported"
+
+test-ok:
+	@echo "🧪 Running gopanix test (expected no panic)..."
+	@$(APP_NAME) run ./testdata/no_panic.go
 
 test-lib:
 	@echo "🧪 Running gopanix test (expected panic)..."

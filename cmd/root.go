@@ -6,6 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/mickamy/gopanix/cmd/run"
 	"github.com/mickamy/gopanix/cmd/version"
 )
 
@@ -18,6 +19,7 @@ It helps you debug crashes more comfortably by saving panic information as HTML,
 }
 
 func init() {
+	cmd.AddCommand(run.Cmd)
 	cmd.AddCommand(version.Cmd)
 }
 
