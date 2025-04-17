@@ -2,6 +2,7 @@ APP_NAME = gopanix
 VERSION ?= dev
 BUILD_DIR = bin
 GORELEASER ?= go tool goreleaser
+VERSION_VARIABLE = github.com/mickamy/gopanix/internal/cli/version/version.version
 
 .PHONY: all build install uninstall clean version test fmt
 
@@ -9,11 +10,11 @@ all: build
 
 build:
 	@echo "🔨 Building $(APP_NAME)..."
-	go build -ldflags "-X github.com/mickamy/gopanix/cmd/gopanix/version.version=$(VERSION)" -o $(BUILD_DIR)/$(APP_NAME) ./cmd/gopanix
+	go build -ldflags "-X $(VERSION_VARIABLE)=$(VERSION)" -o $(BUILD_DIR)/$(APP_NAME) ./cmd/gopanix
 
 install:
 	@echo "📦 Installing $(APP_NAME)..."
-	go install -ldflags "-X github.com/mickamy/gopanix/cmd/gopanix/version.version=$(VERSION)" ./cmd/gopanix
+	go install -ldflags "-X $(VERSION_VARIABLE)=$(VERSION)" ./cmd/gopanix
 
 uninstall:
 	@echo "🗑️  Uninstalling $(APP_NAME)..."
