@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 
@@ -57,7 +58,7 @@ func Run(args []string, open bool) error {
 
 		if panicDetected {
 			content := strings.Join(lines, "\n")
-			path, htmlErr := gopanix.Write([]byte(content), "panic from "+args[0], "")
+			path, htmlErr := gopanix.Write([]byte(content), "panic from "+args[0], time.Now().Format("2006-01-02 15:04:05"))
 			if htmlErr != nil {
 				fmt.Printf("⚠️ failed to write HTML report: %v\n", htmlErr)
 			} else {
