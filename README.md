@@ -55,6 +55,7 @@ You can run any Go program — even if it doesn't import gopanix.
 ```bash
 # Install gopanix into your project
 go get -tool github.com/mickamy/gopanix@latest
+
 # or install it globally
 go install github.com/mickamy/gopanix@latest
 ```
