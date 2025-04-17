@@ -45,7 +45,7 @@ func Write(stack []byte, panicMsg, timestamp string) (string, error) {
 
 	tmpl, err := template.New("panic").Parse(pageTemplate)
 	if err != nil {
-		return "", fmt.Errorf("template parse error: %w", err)
+		return "", fmt.Errorf("failed to parse template: %w", err)
 	}
 
 	filename := fmt.Sprintf("panic_%s.html", time.Now().Format("20060102_150405"))
@@ -53,14 +53,14 @@ func Write(stack []byte, panicMsg, timestamp string) (string, error) {
 
 	f, err := os.Create(path)
 	if err != nil {
-		return "", fmt.Errorf("file create error: %w", err)
+		return "", fmt.Errorf("failed to create file: %w", err)
 	}
 	defer func(f *os.File) {
 		_ = f.Close()
 	}(f)
 
 	if err := tmpl.Execute(f, data); err != nil {
-		return "", fmt.Errorf("template exec error: %w", err)
+		return "", fmt.Errorf("failed to execute template: %w", err)
 	}
 
 	return path, nil
