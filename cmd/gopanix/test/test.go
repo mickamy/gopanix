@@ -10,6 +10,7 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/mickamy/gopanix/gopanix"
 	"github.com/mickamy/gopanix/internal/browser"
 	"github.com/mickamy/gopanix/internal/html"
 )
@@ -40,7 +41,7 @@ func Run(packages []string) error {
 	if err := cmdExec.Run(); err != nil {
 		out := stderr.String()
 		if strings.Contains(out, "panic:") {
-			path, err := html.Write([]byte(out), "panic from go test", "")
+			path, err := gopanix.Write([]byte(out), "panic from go test", "")
 			if err != nil {
 				fmt.Printf("⚠️ failed to write HTML report: %v\n", err)
 			} else {

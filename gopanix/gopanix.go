@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/mickamy/gopanix/internal/browser"
-	"github.com/mickamy/gopanix/internal/html"
 )
 
 // Handle is intended to be used as a top-level defer.
@@ -24,7 +23,7 @@ func Report(r any) {
 	stack := debug.Stack()
 	timestamp := time.Now().Format("2006-01-02 15:04:05")
 
-	filename, err := html.Write(stack, fmt.Sprint(r), timestamp)
+	filename, err := Write(stack, fmt.Sprint(r), timestamp)
 	if err != nil {
 		_, _ = fmt.Fprintf(os.Stderr, "failed to write panic HTML: %v\n", err)
 		return

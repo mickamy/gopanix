@@ -10,6 +10,7 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/mickamy/gopanix/gopanix"
 	"github.com/mickamy/gopanix/internal/browser"
 	"github.com/mickamy/gopanix/internal/html"
 )
@@ -49,7 +50,7 @@ func Run(args []string) error {
 
 		if panicDetected {
 			content := strings.Join(lines, "\n")
-			path, htmlErr := html.Write([]byte(content), "panic from subprocess", "")
+			path, htmlErr := gopanix.Write([]byte(content), "panic from subprocess", "")
 			if htmlErr != nil {
 				return fmt.Errorf("failed to write HTML report: %w", htmlErr)
 			}
