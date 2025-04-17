@@ -12,7 +12,6 @@ import (
 
 	"github.com/mickamy/gopanix/gopanix"
 	"github.com/mickamy/gopanix/internal/browser"
-	"github.com/mickamy/gopanix/internal/html"
 )
 
 var Cmd = &cobra.Command{

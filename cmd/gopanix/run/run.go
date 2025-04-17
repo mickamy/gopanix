@@ -12,7 +12,6 @@ import (
 
 	"github.com/mickamy/gopanix/gopanix"
 	"github.com/mickamy/gopanix/internal/browser"
-	"github.com/mickamy/gopanix/internal/html"
 )
 
 var Cmd = &cobra.Command{
@@ -50,13 +49,14 @@ func Run(args []string) error {
 
 		if panicDetected {
 			content := strings.Join(lines, "\n")
-			path, htmlErr := gopanix.Write([]byte(content), "panic from subprocess", "")
+			path, htmlErr := gopanix.Write([]byte(content), "panic from "+args[0], "")
 			if htmlErr != nil {
-				return fmt.Errorf("failed to write HTML report: %w", htmlErr)
+				fmt.Printf("⚠️ failed to write HTML report: %v\n", htmlErr)
+			} else {
+				fmt.Printf("📄 Panic detected in \033[1m%s\033[0m\n", args[0])
+				fmt.Printf("📝 Report: file://%s\n", path)
+				_ = browser.Open(path)
 			}
-			fmt.Printf("\033[36m📄 Panic detected. Report written to:\033[0m file://%s\n", path)
-			_ = browser.Open(path)
-			return nil
 		}
 		return err
 	}
