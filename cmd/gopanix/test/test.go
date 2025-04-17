@@ -7,12 +7,10 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"strings"
 
 	"github.com/spf13/cobra"
 
-	"github.com/mickamy/gopanix/gopanix"
-	"github.com/mickamy/gopanix/internal/browser"
+	"github.com/mickamy/gopanix/cmd/gopanix/report"
 	"github.com/mickamy/gopanix/internal/panics"
 )
 
@@ -54,31 +52,7 @@ func Run(packages []string) error {
 	if err := cmd.Run(); err != nil {
 		out := stderr.String()
 		if panics.Contains(out) {
-			stacks := panics.Extract(out)
-			if len(stacks) == 0 {
-				fmt.Println("⚠️ Panic detected but failed to extract stack trace.")
-				// fallback to full text
-				stacks = [][]string{strings.Split(out, "\n")}
-			}
-
-			// Write each stack trace to a separate HTML file
-			paths := make([]string, len(stacks))
-			for i, stack := range stacks {
-				title := fmt.Sprintf("panic #%d", i+1)
-				path, err := gopanix.Write([]byte(strings.Join(stack, "\n")), title, "")
-				if err != nil {
-					return fmt.Errorf("failed to write report: %w", err)
-				}
-
-				fmt.Printf("📄 HTML report #%d written to: file://%s\n", i+1, path)
-				paths[i] = path
-			}
-
-			// Open the first panic report in the browser
-			fmt.Println("🌐 Opening in browser...")
-			_ = browser.Open(paths[0])
-
-			return nil
+			return report.Run(out)
 		}
 
 		decodeJSONAndPrint(&stdout)

@@ -19,33 +19,32 @@ var Cmd = &cobra.Command{
 	Long: `gopanix report reads stderr/stdout output from a Go program (like go test)
 and generates a formatted HTML report for panic stack traces.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return Run()
+		input, err := io.ReadAll(os.Stdin)
+		if err != nil {
+			return fmt.Errorf("failed to read stdin: %w", err)
+		}
+
+		text := string(input)
+		return Run(text)
 	},
 }
 
-func Run() error {
-	input, err := io.ReadAll(os.Stdin)
-	if err != nil {
-		return fmt.Errorf("failed to read stdin: %w", err)
-	}
-
-	text := string(input)
-
-	if len(text) == 0 {
+func Run(input string) error {
+	if len(input) == 0 {
 		fmt.Println("⚠️ No input received. Did you forget to pipe from go test?")
 		return nil
 	}
 
-	if !panics.Contains(text) {
+	if !panics.Contains(input) {
 		fmt.Println("✅ No panic detected in input.")
 		return nil
 	}
 
-	stacks := panics.Extract(text)
+	stacks := panics.Extract(input)
 	if len(stacks) == 0 {
 		fmt.Println("⚠️ Panic detected but failed to extract stack trace.")
 		// fallback to full text
-		stacks = [][]string{strings.Split(text, "\n")}
+		stacks = [][]string{strings.Split(input, "\n")}
 	}
 
 	paths := make([]string, len(stacks))
