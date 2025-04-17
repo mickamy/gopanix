@@ -13,7 +13,7 @@ builds:
     goos: [ darwin, linux, windows ]
     goarch: [ amd64, arm64 ]
     ldflags:
-      - "-X github.com/mickamy/gopanix/cmd/gopanix/version.version={{.Version}}"
+      - "-X github.com/mickamy/gopanix/internal/cli/version/version.version={{.Version}}"
     binary: gopanix
 
 archives:
