@@ -18,6 +18,13 @@ Use it to debug Go crashes in a more comfortable, visual way — no more squinti
 
 ---
 
+## 🖼️ Example Panic Report
+
+<p align="center">
+  <img src="./assets/panic_report.png" alt="Panic Screenshot" width="600" />
+</p>
+
+
 ## 🚀 Usage
 
 You can use `gopanix` in two ways:
