@@ -46,6 +46,35 @@ func main() {
 
 When a panic occurs, `gopanix` recovers it and opens a detailed HTML report in your browser.
 
+Or if you'd like to add it to an existing program, you can use it like this:
+
+```go
+package main
+
+import (
+  "fmt"
+  "os"
+	
+  "github.com/mickamy/gopanix"
+  "github.com/mickamy/gopanix/browser"
+)
+
+func main() {
+  if r := recover(); r != nil {
+    filename, err := gopanix.Report(r)
+    if err != nil {
+      fmt.Printf("⚠️ Failed to generate report: %v\n", err)
+	  os.Exit(1)
+    }
+
+    fmt.Printf("📄 panic file written to: %s\n", filename)
+    fmt.Println("🌐 Opening in browser...")
+    _ = browser.Open(filename)
+    os.Exit(1)
+  }
+}
+```
+
 ---
 
 ### 🛠 As a CLI
