@@ -1,4 +1,4 @@
-package cmd
+package main
 
 import (
 	"fmt"
@@ -6,8 +6,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/mickamy/gopanix/cmd/run"
-	"github.com/mickamy/gopanix/cmd/version"
+	"github.com/mickamy/gopanix/cmd/gopanix/run"
+	"github.com/mickamy/gopanix/cmd/gopanix/version"
 )
 
 var cmd = &cobra.Command{
@@ -23,7 +23,7 @@ func init() {
 	cmd.AddCommand(version.Cmd)
 }
 
-func Execute() {
+func main() {
 	if err := cmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)

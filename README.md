@@ -18,13 +18,6 @@ Use it to debug Go crashes in a more comfortable, visual way — no more squinti
 
 ---
 
-## 📦 Installation
-
-```bash
-go get -tool github.com/mickamy/gopanix@latest
-go get github.com/mickamy/gopanix@latest
-```
-
 ## 🚀 Usage
 
 You can use `gopanix` in two ways:
@@ -34,6 +27,10 @@ You can use `gopanix` in two ways:
 ### 📦 As a library
 
 Add `gopanix` to your Go app and use `defer gopanix.Handle()`:
+
+```bash
+go get github.com/mickamy/gopanix@latest
+```
 
 ```go
 package main
@@ -54,6 +51,13 @@ When a panic occurs, `gopanix` recovers it and opens a detailed HTML report in y
 ### 🛠 As a CLI
 
 You can run any Go program — even if it doesn't import gopanix.
+
+```bash
+# Install gopanix into your project
+go get -tool github.com/mickamy/gopanix@latest
+# or install it globally
+go install github.com/mickamy/gopanix@latest
+```
 
 ```bash
 gopanix run ./main.go

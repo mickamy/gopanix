@@ -9,11 +9,11 @@ all: build
 
 build:
 	@echo "🔨 Building $(APP_NAME)..."
-	go build -ldflags "-X github.com/mickamy/gopanix/cmd/version.version=$(VERSION)" -o $(BUILD_DIR)/$(APP_NAME) .
+	go build -ldflags "-X github.com/mickamy/gopanix/cmd/gopanix/version.version=$(VERSION)" -o $(BUILD_DIR)/$(APP_NAME) ./cmd/gopanix
 
 install:
 	@echo "📦 Installing $(APP_NAME)..."
-	go install -ldflags "-X github.com/mickamy/gopanix/cmd/version.version=$(VERSION)"
+	go install -ldflags "-X github.com/mickamy/gopanix/cmd/gopanix/version.version=$(VERSION)" ./cmd/gopanix
 
 uninstall:
 	@echo "🗑️  Uninstalling $(APP_NAME)..."
