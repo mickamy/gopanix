@@ -37,11 +37,11 @@ test:
 
 test-panic:
 	@echo "🧪 Testing: expected panic (gopanix run)..."
-	@$(APP_NAME) run ./testdata/panic.go || echo "💥 Panic detected and reported"
+	@$(APP_NAME) run ./testdata/panic.go --open || echo "💥 Panic detected and reported"
 
 test-ok:
 	@echo "🧪 Testing: no panic expected (gopanix run)..."
-	@$(APP_NAME) run ./testdata/no_panic.go
+	@$(APP_NAME) run ./testdata/no_panic.go --open
 
 test-lib:
 	@echo "🧪 Testing: panic using gopanix.Handle() (embedded)..."
