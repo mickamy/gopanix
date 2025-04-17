@@ -6,7 +6,7 @@ import (
 	"runtime/debug"
 	"time"
 
-	"github.com/mickamy/gopanix/internal/browser"
+	"github.com/mickamy/gopanix/browser"
 )
 
 // Handle is intended to be used as a top-level defer.

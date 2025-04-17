@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/mickamy/gopanix"
-	"github.com/mickamy/gopanix/internal/browser"
+	"github.com/mickamy/gopanix/browser"
 )
 
 var (
