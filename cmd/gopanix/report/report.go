@@ -36,7 +36,7 @@ func Run() error {
 		return nil
 	}
 
-	if !containsPanic(text) {
+	if !panics.Contains(text) {
 		fmt.Println("✅ No panic detected in input.")
 		return nil
 	}
@@ -56,7 +56,7 @@ func Run() error {
 			return fmt.Errorf("failed to write report: %w", err)
 		}
 
-		fmt.Printf("📄 HTML report #%d written to: file://%s\n", i, path)
+		fmt.Printf("📄 HTML report #%d written to: file://%s\n", i+1, path)
 		paths[i] = path
 	}
 
@@ -64,8 +64,4 @@ func Run() error {
 	_ = browser.Open(paths[0])
 
 	return nil
-}
-
-func containsPanic(s string) bool {
-	return strings.Contains(s, "panic:")
 }
