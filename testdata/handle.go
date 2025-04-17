@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/mickamy/gopanix/gopanix"
+	"github.com/mickamy/gopanix"
 )
 
 func main() {
