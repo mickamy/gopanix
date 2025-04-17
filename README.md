@@ -5,7 +5,7 @@
 `gopanix` is a CLI and library for Go that turns panic stack traces into readable HTML reports.  
 Use it to debug Go crashes in a more comfortable, visual way — no more squinting at walls of text.
 
----
+![Screenshot](./assets/panic_report.png)
 
 ## ✨ Features
 
@@ -17,13 +17,6 @@ Use it to debug Go crashes in a more comfortable, visual way — no more squinti
 - 🧘 Works without modifying the target program (CLI mode)
 
 ---
-
-## 🖼️ Example Panic Report
-
-<p align="center">
-  <img src="./assets/panic_report.png" alt="Panic Screenshot" width="600" />
-</p>
-
 
 ## 🚀 Usage
 
