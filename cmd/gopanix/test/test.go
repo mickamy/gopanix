@@ -3,15 +3,19 @@ package test
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
-	"strings"
 
 	"github.com/spf13/cobra"
 
-	"github.com/mickamy/gopanix/gopanix"
-	"github.com/mickamy/gopanix/internal/browser"
+	"github.com/mickamy/gopanix/cmd/gopanix/report"
+	"github.com/mickamy/gopanix/internal/panics"
+)
+
+var (
+	errGoTestFailed = errors.New("go test failed")
 )
 
 var Cmd = &cobra.Command{
@@ -23,36 +27,44 @@ var Cmd = &cobra.Command{
 			args = []string{"./..."}
 		}
 
-		return Run(args)
+		if err := Run(args); err != nil {
+			if errors.Is(err, errGoTestFailed) {
+				fmt.Println("⚠️ Go test failed.")
+				os.Exit(1)
+			}
+			return err
+		}
+
+		return nil
 	},
 }
 
 func Run(packages []string) error {
 	allArgs := append([]string{"test", "-json"}, packages...)
-	cmdExec := exec.Command("go", allArgs...)
+	cmd := exec.Command("go", allArgs...)
 
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
 
-	cmdExec.Stdout = &stdout
-	cmdExec.Stderr = &stderr
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
 
-	if err := cmdExec.Run(); err != nil {
+	if err := cmd.Run(); err != nil {
 		out := stderr.String()
-		if strings.Contains(out, "panic:") {
-			path, err := gopanix.Write([]byte(out), "panic from go test", "")
-			if err != nil {
-				fmt.Printf("⚠️ failed to write HTML report: %v\n", err)
-			} else {
-				fmt.Printf("📄 HTML report written to: file://%s\n", path)
-				_ = browser.Open(path)
-			}
+		if panics.Contains(out) {
+			return report.Run(out)
 		}
-		_, _ = fmt.Fprintln(os.Stderr, out)
-		return err
+
+		decodeJSONAndPrint(&stdout)
+		return errGoTestFailed
 	}
 
-	decoder := json.NewDecoder(&stdout)
+	decodeJSONAndPrint(&stdout)
+	return nil
+}
+
+func decodeJSONAndPrint(buf *bytes.Buffer) {
+	decoder := json.NewDecoder(buf)
 	for decoder.More() {
 		var event map[string]any
 		_ = decoder.Decode(&event)
@@ -60,6 +72,4 @@ func Run(packages []string) error {
 			fmt.Print(output)
 		}
 	}
-
-	return nil
 }
