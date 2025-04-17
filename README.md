@@ -69,6 +69,30 @@ gopanix run ./main.go
 `gopanix run` will capture the panic output from go run, format it, and open an HTML report.
 It wraps `go run`, captures any panic output, and opens a detailed HTML trace in your browser — no code changes needed.
 
+#### `gopanix test`
+
+The `gopanix test` command runs `go test -json` under the hood and generates an HTML report if any panic is detected in the output.
+
+```bash
+gopanix test ./...
+```
+
+**Features**
+
+- Executes `go test -json` and parses the output
+- Detects panic stack traces and converts them to HTML
+- Displays failed test output as-is
+- Supports multiple panics — generates a report per panic
+- Automatically opens the report in your default browser
+
+```bash
+# Run all tests and capture panics
+gopanix test ./...
+
+# Run specific packages
+gopanix test ./foo ./bar
+```
+
 #### `gopanix report`
 
 Reads panic output from stdin and generates a readable HTML report — perfect for piping `go test` or `go run` output.
@@ -78,8 +102,6 @@ go test 2>&1 | gopanix report
 ```
 
 If any `panic:` is found, `gopanix` will extract the stack trace and open it in your browser.
-
-
 
 ## 📄 License
 
