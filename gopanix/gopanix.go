@@ -11,25 +11,33 @@ import (
 
 // Handle is intended to be used as a top-level defer.
 // It recovers from panic and generates an HTML report.
-func Handle() {
+// If `open` is true, it opens the report in the browser.
+func Handle(open bool) {
 	if r := recover(); r != nil {
-		Report(r)
+		filename, err := Report(r)
+		if err != nil {
+			fmt.Printf("⚠️ Failed to generate report: %v\n", err)
+			os.Exit(1)
+		}
+
+		fmt.Printf("📄 panic file written to: %s\n", filename)
+		if open {
+			fmt.Println("🌐 Opening in browser...")
+			_ = browser.Open(filename)
+		}
 		os.Exit(1)
 	}
 }
 
-// Report creates an HTML file with panic details and opens it in the browser.
-func Report(r any) {
+// Report creates an HTML file with panic details.
+func Report(r any) (string, error) {
 	stack := debug.Stack()
 	timestamp := time.Now().Format("2006-01-02 15:04:05")
 
 	filename, err := Write(stack, fmt.Sprint(r), timestamp)
 	if err != nil {
-		_, _ = fmt.Fprintf(os.Stderr, "failed to write panic HTML: %v\n", err)
-		return
+		return "", err
 	}
 
-	fmt.Printf("📄 panic written to: %s\n", filename)
-	fmt.Println("🌐 Opening in browser...")
-	_ = browser.Open(filename)
+	return filename, nil
 }
