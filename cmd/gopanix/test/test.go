@@ -16,6 +16,7 @@ import (
 
 var (
 	errGoTestFailed = errors.New("go test failed")
+	open            bool
 )
 
 var Cmd = &cobra.Command{
@@ -27,7 +28,7 @@ var Cmd = &cobra.Command{
 			args = []string{"./..."}
 		}
 
-		if err := Run(args); err != nil {
+		if err := Run(args, open); err != nil {
 			if errors.Is(err, errGoTestFailed) {
 				fmt.Println("⚠️ Go test failed.")
 				os.Exit(1)
@@ -39,7 +40,11 @@ var Cmd = &cobra.Command{
 	},
 }
 
-func Run(packages []string) error {
+func init() {
+	Cmd.Flags().BoolVarP(&open, "open", "o", false, "Open the report in the browser")
+}
+
+func Run(packages []string, open bool) error {
 	allArgs := append([]string{"test", "-json"}, packages...)
 	cmd := exec.Command("go", allArgs...)
 
@@ -52,7 +57,7 @@ func Run(packages []string) error {
 	if err := cmd.Run(); err != nil {
 		out := stderr.String()
 		if panics.Contains(out) {
-			return report.Run(out)
+			return report.Run(out, open)
 		}
 
 		decodeJSONAndPrint(&stdout)

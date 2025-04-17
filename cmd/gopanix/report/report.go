@@ -13,6 +13,10 @@ import (
 	"github.com/mickamy/gopanix/internal/panics"
 )
 
+var (
+	open bool
+)
+
 var Cmd = &cobra.Command{
 	Use:   "report",
 	Short: "Read panic output from stdin and generate HTML report",
@@ -25,11 +29,15 @@ and generates a formatted HTML report for panic stack traces.`,
 		}
 
 		text := string(input)
-		return Run(text)
+		return Run(text, open)
 	},
 }
 
-func Run(input string) error {
+func init() {
+	Cmd.Flags().BoolVarP(&open, "open", "o", false, "Open the report in the browser")
+}
+
+func Run(input string, open bool) error {
 	if len(input) == 0 {
 		fmt.Println("⚠️ No input received. Did you forget to pipe from go test?")
 		return nil
@@ -59,8 +67,10 @@ func Run(input string) error {
 		paths[i] = path
 	}
 
-	fmt.Println("🌐 Opening in browser...")
-	_ = browser.Open(paths[0])
+	if open {
+		fmt.Println("🌐 Opening in browser...")
+		_ = browser.Open(paths[0])
+	}
 
 	return nil
 }
