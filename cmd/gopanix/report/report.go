@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 
@@ -58,7 +59,7 @@ func Run(input string, open bool) error {
 	paths := make([]string, len(stacks))
 	for i, stack := range stacks {
 		title := fmt.Sprintf("panic #%d", i+1)
-		path, err := gopanix.Write([]byte(strings.Join(stack, "\n")), title, "")
+		path, err := gopanix.Write([]byte(strings.Join(stack, "\n")), title, time.Now().Format("2006-01-02 15:04:05"))
 		if err != nil {
 			return fmt.Errorf("failed to write report: %w", err)
 		}
