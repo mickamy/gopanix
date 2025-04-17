@@ -1,20 +1,20 @@
 version: 2
-project_name: gotcha
+project_name: gopanix
 release:
   github:
     owner: mickamy
-    name: gotcha
+    name: gopanix
   draft: false
   prerelease: "false"
 
 builds:
-  - id: gotcha
-    main: ./main.go
+  - id: gopanix
+    main: ./cmd/gopanix/main.go
     goos: [ darwin, linux, windows ]
     goarch: [ amd64, arm64 ]
     ldflags:
-      - "-X github.com/mickamy/gotcha/cmd/version.version={{.Version}}"
-    binary: gotcha
+      - "-X github.com/mickamy/gopanix/cmd/gopanix/version.version={{.Version}}"
+    binary: gopanix
 
 archives:
   - formats: tar.gz
