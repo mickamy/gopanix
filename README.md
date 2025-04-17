@@ -12,8 +12,8 @@ Use it to debug Go crashes in a more comfortable, visual way — no more squinti
 - 💥 Catch Go panics and recover automatically
 - 🌐 Generate an HTML report with stack trace and timestamp
 - 🧪 Run any Go program with `gopanix run`
-- 📦 Use as a library with `defer gopanix.Handle()`
-- 🚀 Opens your browser automatically
+- 📦 Use as a library with `defer gopanix.Handle(bool)`
+  - Opens your browser automatically if `true` given
 - 🧘 Works without modifying the target program (CLI mode)
 
 ---
@@ -26,7 +26,7 @@ You can use `gopanix` in two ways:
 
 ### 📦 As a library
 
-Add `gopanix` to your Go app and use `defer gopanix.Handle()`:
+Add `gopanix` to your Go app and use `defer gopanix.Handle(bool)`:
 
 ```bash
 go get github.com/mickamy/gopanix@latest
@@ -38,7 +38,7 @@ package main
 import "github.com/mickamy/gopanix"
 
 func main() {
-	defer gopanix.Handle()
+	defer gopanix.Handle(false) // Set to true to open the report in your browser
 
 	panic("something went wrong!")
 }
