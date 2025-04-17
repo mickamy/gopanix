@@ -10,7 +10,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/mickamy/gopanix/cmd/gopanix/report"
+	"github.com/mickamy/gopanix/internal/cli/report"
 	"github.com/mickamy/gopanix/internal/panics"
 )
 
