@@ -56,6 +56,8 @@ func Run(args []string) error {
 				fmt.Printf("📄 Panic detected in \033[1m%s\033[0m\n", args[0])
 				fmt.Printf("📝 Report: file://%s\n", path)
 				_ = browser.Open(path)
+
+				return nil
 			}
 		}
 		return err
