@@ -60,11 +60,26 @@ go get -tool github.com/mickamy/gopanix@latest
 go install github.com/mickamy/gopanix@latest
 ```
 
+#### `gopanix run`
+
 ```bash
 gopanix run ./main.go
 ```
 
-`gopanix` will capture the panic output from go run, format it, and open an HTML report.
+`gopanix run` will capture the panic output from go run, format it, and open an HTML report.
+It wraps `go run`, captures any panic output, and opens a detailed HTML trace in your browser — no code changes needed.
+
+#### `gopanix report`
+
+Reads panic output from stdin and generates a readable HTML report — perfect for piping `go test` or `go run` output.
+
+```bash
+go test 2>&1 | gopanix report
+```
+
+If any `panic:` is found, `gopanix` will extract the stack trace and open it in your browser.
+
+
 
 ## 📄 License
 
